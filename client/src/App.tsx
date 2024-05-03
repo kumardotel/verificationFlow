@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 const App = () => {
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate(); 
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(`${ROOT_URL}verify`, { code: verificationCode }); 
       if (response.status === 200) {
@@ -19,9 +21,8 @@ const App = () => {
     } catch (error) {
       setError('Verification Error');
     }
+    setLoading(false);
   };
-
-  
 
   return (
     <div className='main'>
@@ -37,7 +38,9 @@ const App = () => {
         autoSelect={true}
         onComplete={(value) => {setVerificationCode(value)}} 
       />
-      <button className='submit-btn' onClick={handleSubmit}>Submit</button>
+      <button className='submit-btn' onClick={handleSubmit} disabled={loading}>
+        {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Submit'}
+      </button>
       {error && <p className='error'>{error}</p>}
     </div>
   )
