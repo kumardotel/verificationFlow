@@ -21,6 +21,8 @@ const App = () => {
     }
   };
 
+  
+
   return (
     <div className='main'>
       <h3>Verification code:</h3>
@@ -28,11 +30,12 @@ const App = () => {
         length={6} 
         initialValue=""
         secret={false}
-        onChange={(value, index) => {setVerificationCode(value)}} 
+        onChange={(value) => {setVerificationCode(value)}} 
         type="numeric" 
         inputMode="number"
         style={{padding: '10px'}}  
         autoSelect={true}
+        onComplete={(value) => {setVerificationCode(value)}} 
       />
       <button className='submit-btn' onClick={handleSubmit}>Submit</button>
       {error && <p className='error'>{error}</p>}
